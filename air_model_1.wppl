@@ -22,12 +22,13 @@ var genDist_2 = Infer({method: 'enumerate'}, function() {
 print("Base rate neglect:")
 viz.table(genDist_2)
 
-/* Statistical dependence: Evidence from prior behaviour is ignored; facial cues are
-the only weight in determining outcome. */
+/* Statistical dependence: Facial information is used conditional on the prior behaviour.
+E.g. a person who doesn't do anything mean before, won't draw as strong generalizations
+even when the facial information suggests that they might be willing to tease. */
 var genDist_3 = Infer({method: 'enumerate'}, function() {
   var prior = flip()
   var face = flip()
-  var gen = (face ? (prior && flip(0.9)) : (prior && flip(0.3))) || flip(0.1)
+  var gen = (prior ? (face && flip(0.9)) : (face && flip(0.3))) || flip(0.1)
   return {prior: prior, face: face, gen: gen}
 })
 print("Statistical dependence:")
