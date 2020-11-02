@@ -1,0 +1,34 @@
+/* Most basic function: Evidence from prior behaviour and facial cues are 
+statistically independent, although facial information is weighted more. */
+var genDist = Infer({method: 'enumerate'}, function() {
+  var prior = flip()
+  var face = flip()
+  var gen = (prior && flip(0.3)) || (face && flip(0.7)) || flip(0.1)
+  return {prior: prior, face: face, gen: gen}
+})
+
+//You can use the marginals to calculate probability for each specific outcome.
+print("Independent:")
+viz.table(genDist)
+
+/* Base rate neglect: Evidence from prior behaviour is ignored; facial cues are
+the only weight in determining outcome. */
+var genDist_2 = Infer({method: 'enumerate'}, function() {
+  var prior = flip()
+  var face = flip()
+  var gen = (face && flip(0.9)) || flip(0.3)
+  return {prior: prior, face: face, gen: gen}
+})
+print("Base rate neglect:")
+viz.table(genDist_2)
+
+/* Statistical dependence: Evidence from prior behaviour is ignored; facial cues are
+the only weight in determining outcome. */
+var genDist_3 = Infer({method: 'enumerate'}, function() {
+  var prior = flip()
+  var face = flip()
+  var gen = (face ? (prior && flip(0.9)) : (prior && flip(0.3))) || flip(0.1)
+  return {prior: prior, face: face, gen: gen}
+})
+print("Statistical dependence:")
+viz.table(genDist_3)
