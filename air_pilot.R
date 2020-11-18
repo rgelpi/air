@@ -33,6 +33,8 @@ mod %>% summary()
 # Effects plot
 plot(effect(term = "gen_face", mod = mod))
 
+# Bar graph
+
 df %>% ggplot(aes(x = gen_face, y = genn, group = gen_face, fill = gen_face)) +
   stat_summary(geom = "bar", fun = mean, position = position_dodge(0.9)) +
   stat_summary(geom = "errorbar", fun.data = mean_se, width = 0.2, position = position_dodge(0.9)) +
