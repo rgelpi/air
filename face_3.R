@@ -2,9 +2,12 @@ setwd("~/Downloads")
 
 library(tidyverse)
 library(magrittr)
+library(lazyeval)
 
 df_face = read_csv("face.csv")
-df_face %<>% filter(DistributionChannel != "preview")
+df_face %<>% filter(DistributionChannel != "preview", 
+                    DistributionChannel != "Distribution Channel", 
+                    is.na(RecipientEmail))
 
 # gather the category question values
 df_face %<>%
@@ -65,8 +68,9 @@ df_face <- mygg(df_face, "prior", "face")
 
 # plot generalization by face and prior behaviour
 df_face %>%
-  ggplot(aes(x = face, y = as.numeric(gen == "Yes"), group = prior, fill = prior, colour = prior)) +
-  stat_summary(geom = "bar", fun = mean, position = position_dodge(0.9))
+  ggplot(aes(x = face, y = as.numeric(gen == "Yes"), group = prior, fill = prior)) +
+  stat_summary(geom = "bar", fun = mean, position = position_dodge2(0.9)) +
+  stat_summary(geom = "errorbar", fun.data = mean_se, width = 0.2, position = position_dodge(0.9))
 
 # plot frequency of generalization by trait inference and facial expressions
 df_face %>%
@@ -79,7 +83,7 @@ df_face %>%
                                                       `PV Neutral` = "Prior violation, neutral"))) +
   ggtitle("Facial expressions are most predictive of generalization",
           subtitle = "Children's predictions of moral violations by face, prior behaviour, and trait inference") +
-  scale_fill_brewer(palette = "Set1") +
+  scale_fill_manual(values = c("lightskyblue3", "royalblue4")) +
   bbc_style() +
   theme(legend.title = element_text(family = "Avenir", size = 20)) +
   theme(plot.title = element_text(family = "Avenir Next")) +

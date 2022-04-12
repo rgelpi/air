@@ -307,7 +307,7 @@ library(lmerTest)
 
 names(df_mturk) = c("duration", "time", "jumble", "mid", "rid", "cb", "prior", "scenario", "face", "accept", "trust", "consid", "push", "reason")
 # Reorder these so they look the same for both graphs
-df_mturk$face %<>% factor(levels = c("H", "N", "M"))
+df_mturk$face %<>% factor(levels = c("N", "H", "M"))
 
 # Rename the versions for the graph
 df_mturk$prior %<>% factor(levels = c("V", "NV"))
@@ -325,7 +325,8 @@ df_mturk %>%
   ggtitle("Inference of moral violation by cue type", 
           subtitle = "Prior moral violation (left) and no prior violation (right)") +
   bbc_style() +
-  theme(legend.position = "none")
+  theme(legend.position = "none") +
+  theme(plot.title = element_text(family = "Avenir Next"))
     
 
 df_mturk %>%

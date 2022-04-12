@@ -2,7 +2,7 @@ setwd("~/Documents/TECL/AIR")
 
 # Packages used for this script
 library(pacman)
-p_load(tidyverse, magrittr, emmeans, effects, wesanderson)
+p_load(tidyverse, magrittr, emmeans, effects, wesanderson, lme4, lmerTest)
 
 # Load the data
 df_air = read_csv("air_data.csv")
@@ -98,7 +98,8 @@ df %>% ggplot(aes(x = gen_face, y = genn, group = gen_face, fill = gen_face)) +
   ggtitle("Inference of moral violation by cue type", 
           subtitle = "Prior moral violation (left) and no prior violation (right)") +
   bbc_style() +
-  theme(legend.position = "none")
+  theme(legend.position = "none") +
+  theme(plot.title = element_text(family = "Avenir Next"))
   
 
 df %>% ggplot(aes(x = gen_face, y = genn, group = gen_face, fill = gen_face)) +
